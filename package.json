@@ -1,0 +1,25 @@
+{
+  "name": "ece_ast_project",
+  "version": "0.0.1",
+  "description": "ECE class project",
+  "scripts": {
+    "start": "./bin/start",
+    "compile": "./bin/compile",
+    "test": "./bin/test tests/*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ThomasCharuel/ece_ast_project.git"
+  },
+  "keywords": [
+    "NodeJs",
+    "Express",
+    "API"
+  ],
+  "author": "Thomas Charuel, Romain Marcucci",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ThomasCharuel/ece_ast_project/issues"
+  },
+  "homepage": "https://github.com/ThomasCharuel/ece_ast_project#readme"
+}
