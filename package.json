@@ -21,5 +21,10 @@
   "bugs": {
     "url": "https://github.com/ThomasCharuel/ece_ast_project/issues"
   },
-  "homepage": "https://github.com/ThomasCharuel/ece_ast_project#readme"
+  "homepage": "https://github.com/ThomasCharuel/ece_ast_project#readme",
+  "dependencies": {
+    "jstransformer-coffee-script": "^1.1.0",
+    "nodemon": "^1.12.1",
+    "pug": "^2.0.0-rc.4"
+  }
 }
