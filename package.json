@@ -3,9 +3,9 @@
   "version": "0.0.1",
   "description": "ECE class project",
   "scripts": {
-    "start": "./bin/start",
-    "compile": "./bin/compile",
-    "test": "./bin/test tests/*"
+    "start": "sh ./bin/start",
+    "compile": "sh ./bin/compile",
+    "test": "sh ./bin/test tests/*"
   },
   "repository": {
     "type": "git",
@@ -23,8 +23,19 @@
   },
   "homepage": "https://github.com/ThomasCharuel/ece_ast_project#readme",
   "dependencies": {
+    "coffee-script": "^1.12.7",
+    "express": "^4.16.2",
     "jstransformer-coffee-script": "^1.1.0",
+    "level": "^2.0.0",
+    "level-ws": "^0.1.0",
+    "morgan": "^1.9.0",
     "nodemon": "^1.12.1",
-    "pug": "^2.0.0-rc.4"
+    "pug": "^2.0.0-rc.4",
+    "pug-cli": "^1.0.0-alpha6",
+    "stylus": "^0.54.5"
+  },
+  "devDependencies": {
+    "mocha": "^4.0.1",
+    "should": "^13.1.3"
   }
 }
