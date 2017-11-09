@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/ThomasCharuel/ece_ast_project#readme",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "coffee-script": "^1.12.7",
     "express": "^4.16.2",
     "jstransformer-coffee-script": "^1.1.0",

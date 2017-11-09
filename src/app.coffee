@@ -1,4 +1,5 @@
 express = require 'express'
+bodyparser = require 'body-parser'
 
 metrics = require './metrics'
 
@@ -9,6 +10,10 @@ app.set 'views', "#{__dirname}/../views"
 app.set 'view engine', 'pug'
 
 app.use '/', express.static "#{__dirname}/../public"
+
+app.use bodyparser.json()
+app.use bodyparser.urlencoded()
+
 
 # Render index on /
 app.get '/', (req, res) ->
@@ -22,8 +27,10 @@ app.get '/metrics.json', (req, res) ->
     throw next err if err
     res.status(200).json data
 
-app.post '/', (req, res) ->
-  # POST
+app.post '/metrics.json/:id', (req, res) ->
+  metrics.save req.params.id, req.body, (err) ->
+    throw next err if err
+    res.status(200).send 'metrics saved'
 
 app.put '/', (req, res) ->
   # PUT
