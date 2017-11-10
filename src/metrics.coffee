@@ -4,20 +4,39 @@ levelws = require 'level-ws'
 db = levelws level "#{__dirname}/../db"
 
 module.exports =
-  # get (id, callback)
+  # get (callback)
   # Get metrics
-  # - id: metric's id
   # - callback: the callback function, callback(err, data)
   get: (callback) ->
-    callback null, [
-      timestamp:(new Date '2013-11-04 14:00 UTC').getTime(), value:12
-    ,
-        timestamp:(new Date '2013-11-04 14:30 UTC').getTime(), value:15
-    ]
+    # result array
+    res = []
+    rs = db.createReadStream()
+    # on data, add the data to the result array
+    rs.on 'data', (data) ->
+      # push new object with id, timestamp and value properties
+      res.push 
+        id: data.key.split(':')[1]
+        timestamp: data.key.split(':')[2]
+        value: data.value
+
+    rs.on 'error', (err) -> callback err
+
+    # on stream end, return the result
+    rs.on 'end', () ->
+      callback null, res
+
+  # getById (id, callback)
+  # Get given metrics
+  # - id: metric's id
+  # - callback: the callback function, callback(err, data)
   getById: (id, callback) ->
-    callback null, [
-      timestamp: (new Date '2018-11-09 15:00 UTC').getTime(), value: 1
-    ]
+    rs = db.createReadStream()
+    rs.on 'error', callback
+    rs.on 'close', callback
+    rs.createRead
+      key: "metric:#{id}"
+    rs.end()
+
 
   # save (id, metrics, callback)
   # Save given metrics
@@ -33,4 +52,17 @@ module.exports =
       ws.write 
         key: "metric:#{id}:#{timestamp}"
         value: value
+    ws.end()
+  
+  # delete (id, callback)
+  # Delete given metrics
+  # - id: metric id
+  # - callback: the callback function
+  delete: (id, callback) ->
+    ws = db.createWriteStream
+      type: 'del'
+    ws.on 'error', callback
+    ws.on 'close', callback
+    ws.write
+      key: "metric:#{id}"
     ws.end()
