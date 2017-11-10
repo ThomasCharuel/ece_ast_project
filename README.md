@@ -1,4 +1,5 @@
 # AST 2017 - Express codebase
+![Build](https://travis-ci.org/ThomasCharuel/ast_lab_project.svg?branch=master)
 
 Code base for ECE AST class' final project
 
