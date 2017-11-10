@@ -22,21 +22,30 @@ app.get '/', (req, res) ->
 app.get '/hello/:name', (req, res) ->
   res.send "Hello #{req.params.name}"
 
+# Get all metrics
 app.get '/metrics.json', (req, res) ->
   metrics.get (err, data) ->
     throw next err if err
     res.status(200).json data
 
+# Get a specific metric
+app.get '/metrics.json/:id', (req, res) ->
+  metrics.get req.params.id, (err, data) ->
+    throw next err if err
+    res.status(200).json data
+
+# Post a metric
 app.post '/metrics.json/:id', (req, res) ->
   metrics.save req.params.id, req.body, (err) ->
     throw next err if err
-    res.status(200).send 'metrics saved'
+    res.status(200).send 'metric saved'
 
-app.put '/', (req, res) ->
-  # PUT
+# Delete a metric
+app.delete '/metrics.json/:id', (req, res) ->
+  metrics.delete req.params.id, (err) ->
+    throw next err if err
+    res.status(200).send 'metric deleted'
 
-app.delete '/', (req, res) ->
-  # DELETE
-
+# Start the server
 app.listen app.get('port'), () ->
   console.log "server listening on #{app.get 'port'}"

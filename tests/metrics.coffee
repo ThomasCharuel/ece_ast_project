@@ -14,7 +14,7 @@ describe "metrics", () ->
     metrics.save '1', [
       timestamp:(new Date '2015-11-04 14:00 UTC').getTime(),
       value: 23,
-      timestamp:(new Data '2015-11-04 14:10 UTC').getTime(),
+      timestamp:(new Date '2015-11-04 14:10 UTC').getTime(),
       value: 56
     ], (err) ->
       return next err if err
