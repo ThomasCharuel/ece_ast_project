@@ -18,7 +18,7 @@ describe "metrics", () ->
       value: 56
     ], (err) ->
       return next err if err
-      metrics.get '1', (err, metrics) ->
+      metrics.getById '1', (err, metrics) ->
         return next err if err
         # do some tests here on the returned metrics
         next()

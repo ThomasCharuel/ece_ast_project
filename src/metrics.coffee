@@ -58,7 +58,7 @@ module.exports =
   # - callback: the callback function
   save: (id, metrics, callback) ->
     ws = db.createWriteStream()
-    ws.on 'error', callback
+    ws.on 'error', (err) -> callback err
     ws.on 'close', callback
     for metric in metrics
       { timestamp, value } = metric
@@ -72,10 +72,33 @@ module.exports =
   # - id: metric id
   # - callback: the callback function
   delete: (id, callback) ->
-    ws = db.createWriteStream
-      type: 'del'
-    ws.on 'error', callback
-    ws.on 'close', callback
-    ws.write
-      key: "metric:#{id}"
-    ws.end()
+    # array of keys for db items to delete
+    keys = []
+
+    rs = db.createKeyStream()
+    rs.on 'error', (err) -> callback err
+    rs.on 'data', (key) ->
+      # Split the key
+      keyTable = key.split(':')[0]
+      keyId = key.split(':')[1]
+
+      # add the key to the key array if the key starts with "metric:{id}"
+      if keyTable == 'metric' and keyId == id
+        # Add the key to the list of items to delete
+        keys.push key
+    
+    # When every key has been streamed
+    rs.on 'end', () ->
+      # Open new stream to delete items
+      ws = db.createWriteStream
+        type: 'del'
+      ws.on 'error', (err) -> callback err
+      ws.on 'close', callback
+      
+      # For each key of items to delete
+      for key in keys
+        # Delete the item
+        ws.write
+          key: key
+      
+      ws.end()
