@@ -30,12 +30,25 @@ module.exports =
   # - id: metric's id
   # - callback: the callback function, callback(err, data)
   getById: (id, callback) ->
+    # result array
+    res = []
     rs = db.createReadStream()
-    rs.on 'error', callback
-    rs.on 'close', callback
-    rs.createRead
-      key: "metric:#{id}"
-    rs.end()
+
+    # on data and if correct id, add the data to the result array
+    rs.on 'data', (data) ->
+      # if corresponding id
+      if data.key.split(':')[1] == id
+        # push new object with id, timestamp and value properties
+        res.push 
+          id: data.key.split(':')[1]
+          timestamp: data.key.split(':')[2]
+          value: data.value
+
+    rs.on 'error', (err) -> callback err
+
+    # on stream end, return the result
+    rs.on 'end', () ->
+      callback null, res
 
 
   # save (id, metrics, callback)
