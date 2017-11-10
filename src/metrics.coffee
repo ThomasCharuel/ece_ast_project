@@ -8,9 +8,17 @@ module.exports =
   # Get metrics
   # - id: metric's id
   # - callback: the callback function, callback(err, data)
-  get: (id, callback) ->
-    callback (null)
-  
+  get: (callback) ->
+    callback null, [
+      timestamp:(new Date '2013-11-04 14:00 UTC').getTime(), value:12
+    ,
+        timestamp:(new Date '2013-11-04 14:30 UTC').getTime(), value:15
+    ]
+  getById: (id, callback) ->
+    callback null, [
+      timestamp: (new Date '2018-11-09 15:00 UTC').getTime(), value: 1
+    ]
+
   # save (id, metrics, callback)
   # Save given metrics
   # - id: metric id

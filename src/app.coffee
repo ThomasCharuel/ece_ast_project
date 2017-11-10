@@ -30,7 +30,7 @@ app.get '/metrics.json', (req, res) ->
 
 # Get a specific metric
 app.get '/metrics.json/:id', (req, res) ->
-  metrics.get req.params.id, (err, data) ->
+  metrics.getById req.params.id, (err, data) ->
     throw next err if err
     res.status(200).json data
 
