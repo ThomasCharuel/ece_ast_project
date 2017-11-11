@@ -4,7 +4,7 @@ set -e # Set bash flag to interrupt if any command fails
 
 compileCoffee() {
   echo "Compiling coffee files"
-  node_modules/.bin/coffee --compile src/front/scripts --output public/js
+  node_modules/.bin/coffee --compile --output public/js src/front/scripts
 }
 
 compilePug() {
