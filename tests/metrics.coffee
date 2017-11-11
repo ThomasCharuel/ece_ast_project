@@ -6,7 +6,7 @@ describe "metrics", () ->
   metrics = null
   before (next) ->
     exec "rm -rf #{__dirname}/../db/*", (err, stdout) ->
-      metrics = require '../src/metrics'
+      metrics = require '../src/back/metrics'
       next err
 
   it "get a metric", (next) ->

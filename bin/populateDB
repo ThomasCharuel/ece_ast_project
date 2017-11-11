@@ -1,6 +1,6 @@
 #!/usr/bin/env coffee
 
-metrics = require "#{__dirname}/../src/metrics"
+metrics = require "#{__dirname}/../src/back/metrics"
 
 metrics.save "populated", [
   timestamp:(new Date '2013-11-04 14:00 UTC').getTime(), value:12
