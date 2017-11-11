@@ -1,7 +1,7 @@
 level = require 'level'
 levelws = require 'level-ws'
 
-db = levelws level "#{__dirname}/../db"
+db = levelws level "#{__dirname}/../../db"
 
 module.exports =
   # get (callback)

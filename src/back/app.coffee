@@ -6,10 +6,10 @@ metrics = require './metrics'
 app = express()
 
 app.set 'port', 1337
-app.set 'views', "#{__dirname}/../views"
+app.set 'views', "#{__dirname}/../front/views"
 app.set 'view engine', 'pug'
 
-app.use '/', express.static "#{__dirname}/../public"
+app.use '/', express.static "#{__dirname}/../../public"
 
 app.use bodyparser.json()
 app.use bodyparser.urlencoded()
