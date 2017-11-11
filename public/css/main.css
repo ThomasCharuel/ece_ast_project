@@ -1,6 +1,11 @@
 #metrics{
   width: 100%;
 }
+
+h1{
+  margin-bottom: 30px;
+}
+
 .axis{
   font: 14px sans-serif;
 }
