@@ -7,6 +7,7 @@ block head
   script(type="text/javascript" src="/js/index.js" charset="utf-8")
   link(rel="stylesheet", href="/css/bootstrap.min.css")
   link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
+  link(rel="stylesheet", href="/css/main.css")
 
 block content
   div.container
@@ -14,13 +15,3 @@ block content
       p hello world !
       button(type="button" class="btn btn-success" id="show-metrics") Bring the metrics
       #metrics
-
-  script
-    :coffee-script
-      $('#show-metrics').click (e) ->
-        e.preventDefault()
-        $.getJSON "/metrics.json", {}, (data) ->
-          content = ""
-          for d in data
-            content += "timestamp: #{d.timestamp}, value: #{d.value}"
-          $('#metrics').append content
