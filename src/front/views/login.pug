@@ -1,0 +1,24 @@
+extends layout
+
+block head
+  script(type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8")
+  script(type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8")
+  link(rel="stylesheet", href="/css/bootstrap.min.css")
+  link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
+
+block content
+  #form
+    p Please login to your account
+    hr
+    form#login(action='/login', method="post")
+      .form-group
+        label Username
+        input(type='text', name="username")
+      .form-group
+        label Password
+        input(type='password', name="password")
+      button#login_submit.btn.btn-primary.btn-block(type='submit')
+        i.icon-ok.icon-white
+        |  Connect
+      hr
+      button.btn.btn-success.btn-block(type='button', href='/signup') Create an account

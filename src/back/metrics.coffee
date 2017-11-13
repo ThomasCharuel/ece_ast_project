@@ -1,9 +1,4 @@
-level = require 'level'
-levelws = require 'level-ws'
-
-db = levelws level "#{__dirname}/../../db"
-
-module.exports =
+module.exports = (db) ->
   # get (callback)
   # Get metrics
   # - callback: the callback function, callback(err, data)
