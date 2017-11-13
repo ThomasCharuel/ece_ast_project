@@ -53,14 +53,29 @@
       });
     });
     $('#newMetric').submit(function(e) {
-      var date, id, value;
+      var data, date, id, value;
       e.preventDefault();
       id = $("#metric_id").val();
       date = (new Date($("#metric_datepicker").val())).getTime();
       value = $("#metric_value").val();
-      console.log(id);
-      console.log(date);
-      return console.log(value);
+      data = [
+        {
+          timestamp: date,
+          value: value
+        }
+      ];
+      return $.ajax({
+        type: 'POST',
+        url: "/metrics.json/" + id,
+        contentType: 'application/json; charset=UTF-8',
+        data: JSON.stringify(data),
+        success: function(data) {
+          return alert('Metric saved');
+        },
+        error: function() {
+          return alert('Error saving the metric');
+        }
+      });
     });
     return updateChart = function() {
       x.domain(d3.extent(chartdata, function(d) {

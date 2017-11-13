@@ -72,8 +72,19 @@ $ () ->
     id = $("#metric_id").val()
     date = (new Date $("#metric_datepicker").val() ).getTime()
     value = $("#metric_value").val()
-    
 
+    data = [
+      timestamp: date
+      value: value
+    ]
+
+    $.ajax
+      type: 'POST'
+      url: "/metrics.json/#{id}"
+      contentType: 'application/json; charset=UTF-8'
+      data: JSON.stringify data
+      success: (data) -> alert 'Metric saved'
+      error: () -> alert 'Error saving the metric'
 
   updateChart = () ->
     # Scale the range of the data
