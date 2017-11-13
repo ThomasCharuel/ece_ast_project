@@ -17,9 +17,9 @@ describe "metrics", () ->
       value: 23,
       timestamp:(new Date '2015-11-04 14:10 UTC').getTime(),
       value: 56
-    ], "test", (err) ->
+    ], "test", (err, data) ->
       return next err if err
-      metrics.getById '1', (err, metrics) ->
+      metrics.getById '1', "test", (err, metrics) ->
         return next err if err
         # do some tests here on the returned metrics
         next()
