@@ -7,3 +7,21 @@ block head
   link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
 
 block content
+  #form
+    p Please create an account
+    hr
+    form#signup(action='/signup', method="post")
+      .form-group
+        label Username
+        input(type='text', name="username")
+      .form-group
+        label Password
+        input(type='password', name="password")
+      .form-group
+        label Email
+        input(type='email', name="email")
+      button#signup_submit.btn.btn-primary.btn-block(type='submit')
+        i.icon-ok.icon-white
+        |  Connect
+      hr
+      button.btn.btn-success.btn-block(type='button', href='/login') Login to your account
