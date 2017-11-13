@@ -51,6 +51,12 @@ app.post '/login', (req, res) ->
 app.get '/signup', (req, res) ->
   res.render 'signup'
 
+app.post '/signup', (req, res) ->
+  {username, password, email} = req.body
+  user.save username, password, email, (err) ->
+    throw next err if err
+    res.redirect '/login'
+
 app.get '/logout', authCheck, (req, res) ->
   delete req.session.loggedIn
   delete req.session.username
