@@ -26,13 +26,18 @@ app.use session
   resave: true
   saveUninitialized: true
 
-# Auth authentication
+################
+# Authentication
+################
 authCheck = (req, res, next) ->
   unless req.session.loggedIn == true
     res.redirect '/login'
   else 
     next()
 
+################
+# Auth routes
+################
 app.get '/login', (req, res) ->
   res.render 'login'
 
@@ -73,29 +78,34 @@ app.get '/hello/:name', (req, res) ->
 # Metrics Routes
 ################
 
+metrics_router = express.Router()
+metrics_router.use authCheck
+
 # Get all metrics
-app.get '/metrics.json', (req, res) ->
-  metrics.get (err, data) ->
+metrics_router.get '', (req, res) ->
+  metrics.get req.session.username, (err, data) ->
     throw next err if err
     res.status(200).json data
 
 # Get a specific metric
-app.get '/metrics.json/:id', (req, res) ->
-  metrics.getById req.params.id, (err, data) ->
+metrics_router.get '/:id', (req, res) ->
+  metrics.getById req.params.id, req.session.username, (err, data) ->
     throw next err if err
     res.status(200).json data
 
 # Post a metric
-app.post '/metrics.json/:id', (req, res) ->
-  metrics.save req.params.id, req.body, (err) ->
+metrics_router.post '/:id', (req, res) ->
+  metrics.save req.params.id, req.body, req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'metric saved'
 
 # Delete a metric
-app.delete '/metrics.json/:id', (req, res) ->
-  metrics.delete req.params.id, (err) ->
+metrics_router.delete '/:id', (req, res) ->
+  metrics.delete req.params.id, req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'metric deleted'
+
+app.use '/metrics.json', metrics_router
 
 ################
 # Users Routes
@@ -103,6 +113,7 @@ app.delete '/metrics.json/:id', (req, res) ->
 
 user_router = express.Router()
 
+# Get a specific user
 user_router.get '/:username', authCheck, (req, res) ->
   user.get req.params.username, (err, user) ->
     throw next err if err
@@ -110,11 +121,18 @@ user_router.get '/:username', authCheck, (req, res) ->
       res.status(404).send "user not found"
     else res.status(200).json user
     
+# Post a user
 user_router.post '/', (req, res) ->
   { username, password, email} = req.body.user
   user.save username, password, email, (err) ->
     throw next err if err
     res.status(200).send "user saved"
+
+# Delete a user
+user_router.delete '/:username', (req, res) ->
+  user.remove req.params.username, (err) ->
+    throw next err if err
+    res.status(200).send 'user deleted'
 
 app.use '/user', user_router
 

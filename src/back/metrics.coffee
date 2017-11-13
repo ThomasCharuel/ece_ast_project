@@ -1,18 +1,21 @@
 module.exports = (db) ->
   # get (callback)
   # Get metrics
+  # - username: the user id
   # - callback: the callback function, callback(err, data)
-  get: (callback) ->
+  get: (username, callback) ->
     # result array
     res = []
     rs = db.createReadStream()
     # on data, add the data to the result array
     rs.on 'data', (data) ->
-      # push new object with id, timestamp and value properties
-      res.push 
-        id: data.key.split(':')[1]
-        timestamp: data.key.split(':')[2]
-        value: data.value
+      [ ..., dataUsername, dataId, dataTimestamp ] = data.key.split ":"
+      if username == dataUsername
+        # push new object with id, timestamp and value properties
+        res.push 
+          id: dataId
+          timestamp: dataTimestamp
+          value: data.value
 
     rs.on 'error', (err) -> callback err
 
@@ -23,20 +26,22 @@ module.exports = (db) ->
   # getById (id, callback)
   # Get given metrics
   # - id: metric's id
+  # - username: the user id
   # - callback: the callback function, callback(err, data)
-  getById: (id, callback) ->
+  getById: (id, username, callback) ->
     # result array
     res = []
     rs = db.createReadStream()
 
     # on data and if correct id, add the data to the result array
     rs.on 'data', (data) ->
+      [ ..., dataUsername, dataId, dataTimestamp ] = data.key.split ":"
       # if corresponding id
-      if data.key.split(':')[1] == id
+      if dataId == id and username == dataUsername
         # push new object with id, timestamp and value properties
         res.push 
-          id: data.key.split(':')[1]
-          timestamp: data.key.split(':')[2]
+          id: dataId
+          timestamp: dataTimestamp
           value: data.value
 
     rs.on 'error', (err) -> callback err
@@ -50,23 +55,25 @@ module.exports = (db) ->
   # Save given metrics
   # - id: metric id
   # - metrics: an array of { timestamp, value }
+  # - username: the user id
   # - callback: the callback function
-  save: (id, metrics, callback) ->
+  save: (id, metrics, username, callback) ->
     ws = db.createWriteStream()
     ws.on 'error', (err) -> callback err
     ws.on 'close', callback
     for metric in metrics
       { timestamp, value } = metric
       ws.write 
-        key: "metric:#{id}:#{timestamp}"
+        key: "metric:#{username}:#{id}:#{timestamp}"
         value: value
     ws.end()
   
   # delete (id, callback)
   # Delete given metrics
   # - id: metric id
+  # - username: the user id
   # - callback: the callback function
-  delete: (id, callback) ->
+  delete: (id, username, callback) ->
     # array of keys for db items to delete
     keys = []
 
@@ -74,11 +81,10 @@ module.exports = (db) ->
     rs.on 'error', (err) -> callback err
     rs.on 'data', (key) ->
       # Split the key
-      keyTable = key.split(':')[0]
-      keyId = key.split(':')[1]
+      [ keyTable, dataUsername, dataId ] = data.key.split ":"
 
       # add the key to the key array if the key starts with "metric:{id}"
-      if keyTable == 'metric' and keyId == id
+      if keyTable == 'metric' and dataId == id and username == dataUsername
         # Add the key to the list of items to delete
         keys.push key
     
