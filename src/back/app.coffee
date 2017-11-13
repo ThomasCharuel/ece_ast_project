@@ -48,6 +48,9 @@ app.post '/login', (req, res) ->
       req.session.username = user.username
       res.redirect '/'
 
+app.get '/signup', (req, res) ->
+  res.render 'signup'
+
 app.get '/logout', authCheck, (req, res) ->
   delete req.session.loggedIn
   delete req.session.username
