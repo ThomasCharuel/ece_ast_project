@@ -6,7 +6,8 @@ describe "metrics", () ->
   metrics = null
   before (next) ->
     exec "rm -rf #{__dirname}/../db/*", (err, stdout) ->
-      metrics = require '../src/back/metrics'
+      db = require('../src/back/db')("#{__dirname}/../db/data")
+      metrics = require('../src/back/metrics')(db)
       next err
 
   it "get a metric", (next) ->
@@ -16,7 +17,7 @@ describe "metrics", () ->
       value: 23,
       timestamp:(new Date '2015-11-04 14:10 UTC').getTime(),
       value: 56
-    ], (err) ->
+    ], "test", (err) ->
       return next err if err
       metrics.getById '1', (err, metrics) ->
         return next err if err
