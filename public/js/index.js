@@ -13,7 +13,7 @@
       left: 50
     };
     width = $('#metrics').width() - margin.left - margin.right;
-    height = 500 - margin.top - margin.bottom;
+    height = 400 - margin.top - margin.bottom;
     x = d3.scaleTime().range([0, width]);
     y = d3.scaleLinear().range([height, 0]);
     valueline = d3.line().x(function(d) {

@@ -1,6 +1,12 @@
 #metrics {
   width: 100%;
 }
+navbar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 20px;
+  margin-bottom: 20px;
+}
 h1 {
   margin-bottom: 30px;
 }

@@ -68,7 +68,7 @@ module.exports = (db) ->
         value: value
     ws.end()
   
-  # delete (id, callback)
+  # deleteById (id, callback)
   # Delete given metrics
   # - id: metric id
   # - username: the user id
@@ -85,6 +85,41 @@ module.exports = (db) ->
 
       # add the key to the key array if the key starts with "metric:{id}"
       if keyTable == 'metric' and dataId == id and username == dataUsername
+        # Add the key to the list of items to delete
+        keys.push key
+    
+    # When every key has been streamed
+    rs.on 'end', () ->
+      # Open new stream to delete items
+      ws = db.createWriteStream
+        type: 'del'
+      ws.on 'error', (err) -> callback err
+      ws.on 'close', callback
+      
+      # For each key of items to delete
+      for key in keys
+        # Delete the item
+        ws.write
+          key: key
+      
+      ws.end()
+
+  # deleteByUsername (username, callback)
+  # Delete given metrics
+  # - username: the user id
+  # - callback: the callback function
+  deleteByUsername: (username, callback) ->
+    # array of keys for db items to delete
+    keys = []
+
+    rs = db.createKeyStream()
+    rs.on 'error', (err) -> callback err
+    rs.on 'data', (key) ->
+      # Split the key
+      [ keyTable, dataUsername ] = key.split ":"
+
+      # add the key to the key array if the key starts with "metric:{id}"
+      if keyTable == 'metric' and username == dataUsername
         # Add the key to the list of items to delete
         keys.push key
     

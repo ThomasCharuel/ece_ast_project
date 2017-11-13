@@ -129,8 +129,8 @@ user_router.post '/', (req, res) ->
     res.status(200).send "user saved"
 
 # Delete a user
-user_router.delete '/:username', (req, res) ->
-  user.remove req.params.username, (err) ->
+user_router.delete '/', authCheck, (req, res) ->
+  user.remove req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'user deleted'
 

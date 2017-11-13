@@ -7,7 +7,7 @@ $ () ->
   # Set the dimensions of the canvas / graph
   margin = {top: 20, right: 20, bottom: 100, left: 50}
   width = $('#metrics').width() - margin.left - margin.right
-  height = 500 - margin.top - margin.bottom
+  height = 400 - margin.top - margin.bottom
 
   # Set the ranges
   x = d3.scaleTime().range [0, width]

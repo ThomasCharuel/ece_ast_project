@@ -41,3 +41,8 @@ module.exports = (db) ->
     ws.write
       key: "user:#{username}"
     ws.end()
+
+    metrics = require('./metrics')(db)
+
+    metrics.deleteByUsername username, (err) ->
+      callback err if err

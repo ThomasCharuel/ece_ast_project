@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Web Page</title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+  </head>
+  <body>
+    <div id="form">
+      <p>Please create an account</p>
+      <hr>
+      <form id="signup" action="/signup" method="post">
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" name="username">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" name="password">
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email">
+        </div>
+        <button class="btn btn-primary btn-block" id="signup_submit" type="submit"><i class="icon-ok icon-white"></i> Connect</button>
+        <hr>
+        <button class="btn btn-success btn-block" type="button" onclick="location.href=&quot;/login&quot;">Login to your account</button>
+      </form>
+    </div>
+  </body>
+</html>
