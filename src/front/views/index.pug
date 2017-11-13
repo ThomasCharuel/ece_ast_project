@@ -4,9 +4,11 @@ block head
   script(type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8")
   script(type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8")
   script(type="text/javascript" src="/js/d3/d3.min.js" charset="utf-8")
+  script(type="text/javascript" src="/js/jquery-ui-1.12.1/jquery-ui.min.js" charset="utf-8")
   script(type="text/javascript" src="/js/index.js" charset="utf-8")
   link(rel="stylesheet", href="/css/bootstrap.min.css")
   link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
+  link(rel="stylesheet" href="/js/jquery-ui-1.12.1/jquery-ui.min.css")
   link(rel="stylesheet", href="/css/main.css")
 
 block content
@@ -15,5 +17,19 @@ block content
       button.btn.btn-danger(href='/logout' onClick='document.location.href="/logout"') Logout
     div.col-md-6.col-md-offset-3
       h1(class="text-center") Metrics Dashboard
+      form#newMetric
+        h2 Add a metric
+        .form-group
+          label Id
+          input#metric_id(type='text', name="id")
+        .form-group
+          label Date
+          input#metric_datepicker(type='text', name="datetime")
+        .form-group
+          label Value
+          input#metric_value(type='number', name="value")
+        button#newMetric_submit.btn.btn-primary.btn-block(type='submit')
+          i.icon-ok.icon-white
+          |  Add
       #metrics
       button(type="button" class="btn btn-success center-block" id="show-metrics") Bring the metrics

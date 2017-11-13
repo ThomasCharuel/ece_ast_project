@@ -5,9 +5,11 @@
     <script type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/bootstrap.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/d3/d3.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/js/jquery-ui-1.12.1/jquery-ui.min.js" charset="utf-8"></script>
     <script type="text/javascript" src="/js/index.js" charset="utf-8"></script>
     <link rel="stylesheet" href="/css/bootstrap.min.css">
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="/js/jquery-ui-1.12.1/jquery-ui.min.css">
     <link rel="stylesheet" href="/css/main.css">
   </head>
   <body>
@@ -17,6 +19,22 @@
       </navbar>
       <div class="col-md-6 col-md-offset-3">
         <h1 class="text-center">Metrics Dashboard</h1>
+        <form id="newMetric">
+          <h2>Add a metric</h2>
+          <div class="form-group">
+            <label>Id</label>
+            <input id="metric_id" type="text" name="id">
+          </div>
+          <div class="form-group">
+            <label>Date</label>
+            <input id="metric_datepicker" type="text" name="datetime">
+          </div>
+          <div class="form-group">
+            <label>Value</label>
+            <input id="metric_value" type="number" name="value">
+          </div>
+          <button class="btn btn-primary btn-block" id="newMetric_submit" type="submit"><i class="icon-ok icon-white"></i> Add</button>
+        </form>
         <div id="metrics"></div>
         <button class="btn btn-success center-block" type="button" id="show-metrics">Bring the metrics</button>
       </div>

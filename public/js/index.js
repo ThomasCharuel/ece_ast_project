@@ -6,6 +6,7 @@
 
   $(function() {
     var height, margin, svg, updateChart, valueline, width, x, y;
+    $('#metric_datepicker').datepicker();
     margin = {
       top: 20,
       right: 20,
@@ -50,6 +51,16 @@
         });
         return updateChart();
       });
+    });
+    $('#newMetric').submit(function(e) {
+      var date, id, value;
+      e.preventDefault();
+      id = $("#metric_id").val();
+      date = (new Date($("#metric_datepicker").val())).getTime();
+      value = $("#metric_value").val();
+      console.log(id);
+      console.log(date);
+      return console.log(value);
     });
     return updateChart = function() {
       x.domain(d3.extent(chartdata, function(d) {

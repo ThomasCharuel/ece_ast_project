@@ -4,6 +4,9 @@ chartdata = []
 # Wait page loaded
 $ () ->
 
+  # Initiate datepicker
+  $('#metric_datepicker').datepicker()
+
   # Set the dimensions of the canvas / graph
   margin = {top: 20, right: 20, bottom: 100, left: 50}
   width = $('#metrics').width() - margin.left - margin.right
@@ -63,6 +66,14 @@ $ () ->
       # Sort the metrics by timestamp
       chartdata.sort (a, b) -> a.timestamp - b.timestamp
       updateChart()
+
+  $('#newMetric').submit (e) ->
+    e.preventDefault()
+    id = $("#metric_id").val()
+    date = (new Date $("#metric_datepicker").val() ).getTime()
+    value = $("#metric_value").val()
+    
+
 
   updateChart = () ->
     # Scale the range of the data
