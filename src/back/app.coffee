@@ -11,6 +11,17 @@ user = require('./user')(db)
 
 app = express()
 
+server = require('http').Server(app)
+io = require('socket.io')(server)
+
+
+logging_middleware = (req, res, next) ->
+  io.emit 'logs',
+    username: if req.session.loggedIn then req.session.username else 'anonymous'
+    url: req.url
+  next()
+
+
 app.set 'port', 1337
 app.set 'views', "#{__dirname}/../front/views"
 app.set 'view engine', 'pug'
@@ -25,6 +36,11 @@ app.use session
   store: new SessionStore './db/sessions'
   resave: true
   saveUninitialized: true
+app.use logging_middleware
+
+
+app.get '/logging', (req, res) ->
+  res.render 'logging'
 
 ################
 # Authentication
@@ -137,5 +153,5 @@ user_router.delete '/', authCheck, (req, res) ->
 app.use '/user', user_router
 
 # Start the server
-app.listen app.get('port'), () ->
+server.listen app.get('port'), () ->
   console.log "server listening on #{app.get 'port'}"
