@@ -7,6 +7,11 @@ Code base for ECE AST class' final project
 
 Just clone it from github & run `npm install`
 
+## Populate DB 
+
+To populate the db with users and metrics batch:
+run `npm run populateDB`
+
 ## Run 
 
 Use `nodemon src/app.coffee` or `npm start`
