@@ -81,7 +81,7 @@ module.exports = (db) ->
     rs.on 'error', (err) -> callback err
     rs.on 'data', (key) ->
       # Split the key
-      [ keyTable, dataUsername, dataId ] = data.key.split ":"
+      [ keyTable, dataUsername, dataId ] = key.split ":"
 
       # add the key to the key array if the key starts with "metric:{id}"
       if keyTable == 'metric' and dataId == id and username == dataUsername
@@ -101,7 +101,7 @@ module.exports = (db) ->
         # Delete the item
         ws.write
           key: key
-      
+
       ws.end()
 
   # deleteByUsername (username, callback)

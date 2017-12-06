@@ -14,12 +14,18 @@ app = express()
 server = require('http').Server(app)
 io = require('socket.io')(server)
 
-
+# Logs generator middleware
 logging_middleware = (req, res, next) ->
+  # Write logs with username and requested url
   io.emit 'logs',
     username: if req.session.loggedIn then req.session.username else 'anonymous'
     url: req.url
   next()
+
+# Centralize error handler
+error_middleware = (err, req, res, next) ->
+  # formulate an error response here
+  res.status(500).send('Internal error')
 
 
 app.set 'port', 1337
@@ -37,6 +43,7 @@ app.use session
   resave: true
   saveUninitialized: true
 app.use logging_middleware
+app.use error_middleware
 
 
 app.get '/logging', (req, res) ->
