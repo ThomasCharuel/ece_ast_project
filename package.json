@@ -5,7 +5,7 @@
   "scripts": {
     "start": "sh ./bin/start",
     "compile": "sh ./bin/compile",
-    "test": "sh ./bin/test tests/*",
+    "test": "sh ./bin/test",
     "populateDB": "coffee ./bin/populateDB"
   },
   "repository": {

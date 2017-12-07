@@ -1,3 +1,4 @@
 #!/bin/bash
 
-./node_modules/mocha/bin/mocha --require coffee-script/register $@
+./node_modules/mocha/bin/mocha --require coffee-script/register tests/metrics.coffee
+./node_modules/mocha/bin/mocha --require coffee-script/register tests/user.coffee

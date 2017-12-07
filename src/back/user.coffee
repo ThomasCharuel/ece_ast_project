@@ -4,7 +4,8 @@ module.exports = (db) ->
   # - callback: the callback function, callback(err, data)
   get: (username, callback) ->
     db.get "user:#{username}", (err, data) ->
-      throw err if err
+      callback err if err
+      
       [ password, email ] = data.split ":"
       result = 
         username: username
@@ -20,7 +21,7 @@ module.exports = (db) ->
   # - callback: the callback function
   save: (username, password, email, callback) ->
     ws = db.createWriteStream()
-    ws.on 'error', callback
+    ws.on 'error', (err) -> callback err
     ws.on 'close', callback
 
     ws.write
