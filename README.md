@@ -12,6 +12,10 @@ Just clone it from github & run `npm install`
 To populate the db with users and metrics batch:
 run `npm run populateDB`
 
+## Compile source file
+
+To compile pug, coffee, and stylus files run `npm run compile`
+
 ## Run 
 
 Use `nodemon src/app.coffee` or `npm start`
