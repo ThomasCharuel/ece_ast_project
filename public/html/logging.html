@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>My Web Page</title>
+    <script type="text/javascript" src="/js/jquery-3.2.1.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js" charset="utf-8"></script>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Logs</h1>
+      <div id="content"></div>
+    </div>
+    <script>(function() {
+  $(function() {
+    var socket;
+    socket = io.connect('http://localhost:1337');
+    return socket.on('logs', function(data) {
+      return $("#content").append(data.username + " loaded " + data.url + "<br />");
+    });
+  });
+
+}).call(this);
+
+    </script>
+  </body>
+</html>

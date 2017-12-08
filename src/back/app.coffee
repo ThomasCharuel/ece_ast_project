@@ -25,7 +25,7 @@ logging_middleware = (req, res, next) ->
 # Centralize error handler
 error_middleware = (err, req, res, next) ->
   # formulate an error response here
-  res.status(500).send('Internal error')
+  res.status(500).send 'Internal error'
 
 
 app.set 'port', 1337
@@ -42,8 +42,6 @@ app.use session
   store: new SessionStore './db/sessions'
   resave: true
   saveUninitialized: true
-app.use logging_middleware
-app.use error_middleware
 
 
 app.get '/logging', (req, res) ->
@@ -64,12 +62,12 @@ authCheck = (req, res, next) ->
 app.get '/login', (req, res) ->
   res.render 'login'
 
-app.post '/login', (req, res) ->
+app.post '/login', (req, res, next) ->
   {username, password} = req.body
   user.get username, (err, user) ->
-    throw next err if err
-    unless password == user.password
+    if err
       res.redirect '/login'
+
     else
       req.session ?= {}
       req.session.loggedIn = true
@@ -79,10 +77,10 @@ app.post '/login', (req, res) ->
 app.get '/signup', (req, res) ->
   res.render 'signup'
 
-app.post '/signup', (req, res) ->
+app.post '/signup', (req, res, next) ->
   {username, password, email} = req.body
   user.save username, password, email, (err) ->
-    throw next err if err
+    next( new Error 'Signup error' ) if err
     res.redirect '/login'
 
 app.get '/logout', authCheck, (req, res) ->
@@ -105,25 +103,25 @@ metrics_router = express.Router()
 metrics_router.use authCheck
 
 # Get all metrics
-metrics_router.get '', (req, res) ->
+metrics_router.get '', (req, res, next) ->
   metrics.get req.session.username, (err, data) ->
     throw next err if err
     res.status(200).json data
 
 # Get a specific metric
-metrics_router.get '/:id', (req, res) ->
+metrics_router.get '/:id', (req, res, next) ->
   metrics.getById req.params.id, req.session.username, (err, data) ->
     throw next err if err
     res.status(200).json data
 
 # Post a metric
-metrics_router.post '/:id', (req, res) ->
+metrics_router.post '/:id', (req, res, next) ->
   metrics.save req.params.id, req.body, req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'metric saved'
 
 # Delete a metric
-metrics_router.delete '/:id', (req, res) ->
+metrics_router.delete '/:id', (req, res, next) ->
   metrics.delete req.params.id, req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'metric deleted'
@@ -137,7 +135,7 @@ app.use '/metrics.json', metrics_router
 user_router = express.Router()
 
 # Get a specific user
-user_router.get '/:username', authCheck, (req, res) ->
+user_router.get '/:username', authCheck, (req, res, next) ->
   user.get req.params.username, (err, user) ->
     throw next err if err
     if user == null
@@ -145,14 +143,14 @@ user_router.get '/:username', authCheck, (req, res) ->
     else res.status(200).json user
     
 # Post a user
-user_router.post '/', (req, res) ->
+user_router.post '/', (req, res, next) ->
   { username, password, email} = req.body.user
   user.save username, password, email, (err) ->
     throw next err if err
     res.status(200).send "user saved"
 
 # Delete a user
-user_router.delete '/', authCheck, (req, res) ->
+user_router.delete '/', authCheck, (req, res, next) ->
   user.remove req.session.username, (err) ->
     throw next err if err
     res.status(200).send 'user deleted'
@@ -162,3 +160,7 @@ app.use '/user', user_router
 # Start the server
 server.listen app.get('port'), () ->
   console.log "server listening on #{app.get 'port'}"
+
+# Define middlewares
+app.use logging_middleware
+app.use error_middleware

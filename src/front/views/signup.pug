@@ -7,21 +7,23 @@ block head
   link(rel="stylesheet", href="/css/bootstrap-theme.min.css")
 
 block content
-  #form
-    p Please create an account
-    hr
-    form#signup(action='/signup', method="post")
-      .form-group
-        label Username
-        input(type='text', name="username")
-      .form-group
-        label Password
-        input(type='password', name="password")
-      .form-group
-        label Email
-        input(type='email', name="email")
-      button#signup_submit.btn.btn-primary.btn-block(type='submit')
-        i.icon-ok.icon-white
-        |  Signup
+  div.container
+    #form.col-md-6.col-md-offset-3
       hr
-      button.btn.btn-success.btn-block(type='button', onclick='location.href="/login"') Login to your account
+      h2.text-center Please create an account
+      hr
+      form#signup(action='/signup', method="post")
+        .form-group
+          label Username
+          input(type='text', name="username")
+        .form-group
+          label Password
+          input(type='password', name="password")
+        .form-group
+          label Email
+          input(type='email', name="email")
+        button#signup_submit.btn.btn-primary.btn-block(type='submit')
+          i.icon-ok.icon-white
+          |  Signup
+        hr
+        button.btn.btn-success.btn-block(type='button', onclick='location.href="/login"') Login to your account

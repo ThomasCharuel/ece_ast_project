@@ -8,22 +8,25 @@
     <link rel="stylesheet" href="/css/bootstrap-theme.min.css">
   </head>
   <body>
-    <div id="form">
-      <p>Please login to your account</p>
-      <hr>
-      <form id="login" action="/login" method="post">
-        <div class="form-group">
-          <label>Username</label>
-          <input type="text" name="username">
-        </div>
-        <div class="form-group">
-          <label>Password</label>
-          <input type="password" name="password">
-        </div>
-        <button class="btn btn-primary btn-block" id="login_submit" type="submit"><i class="icon-ok icon-white"></i> Connect</button>
+    <div class="container">
+      <div class="col-md-6 col-md-offset-3" id="form">
         <hr>
-        <button class="btn btn-success btn-block" type="button" onclick="location.href=&quot;/signup&quot;">Create an account</button>
-      </form>
+        <h2 class="text-center">Please login to your account</h2>
+        <hr>
+        <form id="login" action="/login" method="post">
+          <div class="form-group">
+            <label>Username</label>
+            <input type="text" name="username">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" name="password">
+          </div>
+          <button class="btn btn-primary btn-block" id="login_submit" type="submit"><i class="icon-ok icon-white"></i> Connect</button>
+          <hr>
+          <button class="btn btn-success btn-block" type="button" onclick="location.href=&quot;/signup&quot;">Create an account</button>
+        </form>
+      </div>
     </div>
   </body>
 </html>

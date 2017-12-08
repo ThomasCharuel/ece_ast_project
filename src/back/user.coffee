@@ -4,8 +4,7 @@ module.exports = (db) ->
   # - callback: the callback function, callback(err, data)
   get: (username, callback) ->
     db.get "user:#{username}", (err, data) ->
-      callback err if err
-      
+      return callback err if err
       [ password, email ] = data.split ":"
       result = 
         username: username
